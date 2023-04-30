@@ -27,3 +27,28 @@ function baslangicNotlariniGetir(key) {
     return baslangicDegerleri
   }
 }
+
+export function myReducer(state, action) {
+  let newState;
+  switch (action.type) {
+    case "NOT_EKLE":
+      newState = {
+        ...state,
+        notlar: [...state.notlar, action.payload],
+      }
+      localStorageStateYaz(s10chLocalStorageKey, newState);
+      return newState;
+    case "NOT_SIL":
+      newState = {
+        ...state,
+        notlar: state.notlar.filter((not) => not.id !== action.payload),
+      }
+      localStorageStateYaz(s10chLocalStorageKey, newState);
+      return newState;
+    default:
+      return {
+        ...state,
+        notlar: baslangicNotlariniGetir(s10chLocalStorageKey).notlar,
+      };
+  }
+}
